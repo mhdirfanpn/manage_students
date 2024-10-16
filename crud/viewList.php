@@ -29,6 +29,7 @@
             font-size: 16px;
             cursor: pointer;
             margin-bottom: 20px;
+            background: #000;
         }
     </style>
 </head>
