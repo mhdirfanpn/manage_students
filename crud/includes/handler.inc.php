@@ -70,14 +70,14 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
         } else {
             try {
-                $sql = "SELECT * FROM students";
-                $result = $conn->query($sql);
+
+                $result = $conn->query("SELECT * FROM students WHERE status = 1");
                 if ($result === false) {
                     throw new Exception("Error executing the query: " . $conn->error);
                 }
                 $users = [];
                 if ($result->num_rows > 0) {
-                    $users = $result->fetch_all(MYSQLI_ASSOC);
+                     $users = $result->fetch_all(MYSQLI_ASSOC);
                 } else {
                     $users = ['message' => 'No users found.'];
                 }
@@ -94,16 +94,15 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         if (isset($_GET['id'])) {
             $id = intval($_GET['id']); 
             try {
-                $stmt = $conn->prepare("DELETE FROM students WHERE id = ?");
+                $stmt = $conn->prepare("UPDATE students SET status = 0 WHERE id = ?");
                 $stmt->bind_param("i", $id);
-                $stmt->execute();
 
-                if($stmt->affected_rows > 0){
+                if($stmt->execute()){
                     echo json_encode(['message' => 'Student deleted successfully.']);
                 } else {
                     echo json_encode(['message' => 'No student found with the given ID.']);
                 }
-            } catch (\Throwable $th) {
+            } catch (Exception $e) {
                 echo json_encode(['error' => $e->getMessage()]);
                 exit();
             }
