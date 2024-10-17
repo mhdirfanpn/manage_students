@@ -24,19 +24,42 @@
             background-color: #f2f2f2;
         }
 
-        button {
+        .backBtn{
+            padding: 5px 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;  
+        }
+
+        .deleteBtn {
             padding: 5px 8px;
             font-size: 16px;
             cursor: pointer;
             margin-bottom: 20px;
-            background: #000;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .editBtn {
+            padding: 5px 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
     </style>
 </head>
 <body>
     <div class="container">
     <h1>Students List</h1>
-    <button onclick="window.location.href='http://localhost:7000/crud/index.php'">Back</button>
+    <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/index.php'">Back</button>
     <table id="students-table">
         <thead>
             <tr>
@@ -44,6 +67,7 @@
                 <th>Email</th>
                 <th>Age</th>
                 <th>Roll Number</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -78,6 +102,10 @@
                                         <td>${student.email}</td>
                                         <td>${student.age}</td>
                                         <td>${student.role_number}</td>
+                                        <td>
+                                    <button class="editBtn" onclick="editStudent(${student.id})">Edit</button>
+                                    <button class="deleteBtn" onclick="deleteStudent(${student.id})">Delete</button>
+                                </td>
                                     </tr>`;
                         tbody.innerHTML += row;
                     });
@@ -86,6 +114,29 @@
                 console.error('Fetch error:', error);
             }
         }
+
+        function editStudent(studentId) {
+            window.location.href = `http://localhost:7000/crud/includes/handler.inc.php?id=${studentId}`;
+        };
+
+        async function deleteStudent(studentId) {
+        const confirmation = confirm("Are you sure you want to delete this student?");
+        if (!confirmation) return;
+
+        try {
+            const response = await fetch(`http://localhost:7000/crud/includes/handler.inc.php?id=${studentId}`, {
+                method: 'DELETE', 
+            });
+            
+            if (response.status === 200) {
+                fetchStudents();
+            } else {
+                alert("Error: " + errorData.message); 
+            }
+        } catch (error) {
+            alert("An error occurred while deleting the student.");
+        }
+    }
 
        
         fetchStudents();
