@@ -1,26 +1,14 @@
 <?php
-require_once 'dbh.inc.php'; 
+header('Content-Type: application/json');
+require_once '../Classes/Db.inc.php'; 
+require_once '../Classes/GetStudentById.php';
 
 $id = htmlspecialchars(trim($_GET['id']));
 
 try {
-    $stmt = $conn->prepare("SELECT * FROM students WHERE id = ? AND status != 0");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $student = $result->fetch_assoc(); 
-        $query = http_build_query($student);
-        header("Location: http://localhost:7000/crud/edit.php?" . $query);
-        exit();
-    } else {
-        echo json_encode(['message' => 'Student not found.']);
-        exit(); 
-    }
+    $student = new GetStudent($id);
+    $result = $student->getStudent();
 } catch (Exception $e) {
-    echo json_encode(['error' => $e->getMessage()]);
-} finally {
-    if (isset($stmt) && $stmt instanceof mysqli_stmt) {
-        $stmt->close();
-    }
+    echo json_encode(["error" => $e->getMessage()]);
 }
+

@@ -10,11 +10,12 @@
 <body>
     <div class="flex">
         <div>
-        <button onclick="window.location.href='http://localhost:7000/crud/viewList.php'">View Students</button>
+        <button onclick="window.location.href='http://localhost:7000/crud/pages/viewList.php'">View Students</button>
 
         <h1>Student Registration Form</h1>
         </div>
-    <form action="includes/registerStudents.php" method="POST">
+
+    <form action="../includes/registerStudents.php" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
 

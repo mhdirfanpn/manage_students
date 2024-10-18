@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,24 +33,36 @@
             margin-bottom: 20px;  
         }
 
-        .restoreBtn {
+        .deleteBtn {
             padding: 5px 8px;
             font-size: 16px;
             cursor: pointer;
             margin-bottom: 20px;
-            background-color: blue;
+            background-color: red;
             color: white;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
+        .editBtn {
+            padding: 5px 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="container">
     <h1>Students List</h1>
-    <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/viewList.php'">Back</button>
+    <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/index.php'">Back</button>
+    <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/viewDeletedStudents.php'">Deleted</button>
     <table id="students-table">
         <thead>
             <tr>
@@ -70,7 +84,7 @@
        
         async function fetchStudents() {
             try {
-                const response = await fetch('http://localhost:7000/crud/includes/deletedStudents.php');
+                const response = await fetch('http://localhost:7000/crud/includes/getActiveStudents.php');
                 const data = await response.json();
                 
                 const tbody = document.querySelector('#students-table tbody');
@@ -92,7 +106,8 @@
                                         <td>${student.age}</td>
                                         <td>${student.role_number}</td>
                                         <td>
-                                    <button class="restoreBtn" onclick="restoreStudent(${student.id})">Restore</button>
+                                    <button class="editBtn" onclick="editStudent(${student.id})">Edit</button>
+                                    <button class="deleteBtn" onclick="deleteStudent(${student.id})">Delete</button>
                                 </td>
                                     </tr>`;
                         tbody.innerHTML += row;
@@ -103,13 +118,16 @@
             }
         }
 
+        function editStudent(studentId) {
+            window.location.href = `http://localhost:7000/crud/includes/getStudentById.php?id=${studentId}`;
+        };
 
-        async function restoreStudent(studentId) {
-        const confirmation = confirm("Are you sure you want to restore this student?");
+        async function deleteStudent(studentId) {
+        const confirmation = confirm("Are you sure you want to delete this student?");
         if (!confirmation) return;
 
         try {
-            const response = await fetch(`http://localhost:7000/crud/includes/restoreStudents.php?id=${studentId}`);
+            const response = await fetch(`http://localhost:7000/crud/includes/deleteStudents.php?id=${studentId}`);
             
             if (response.status === 200) {
                 fetchStudents();

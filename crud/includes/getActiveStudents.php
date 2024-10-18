@@ -1,20 +1,11 @@
 <?php
-require_once 'dbh.inc.php'; 
+require_once '../Classes/Db.inc.php'; 
+require_once '../Classes/GetStudents.php'; 
 
 try {
-    $result = $conn->query("SELECT * FROM students WHERE status = 1");
-    if ($result === false) {
-        throw new Exception("Error executing the query: " . $conn->error);
-    }
-    $users = [];
-    if ($result->num_rows > 0) {
-         $users = $result->fetch_all(MYSQLI_ASSOC);
-    } else {
-        $users = ['message' => 'No users found.'];
-    }
-    echo json_encode($users);
-    exit();
+    $students = new Students();
+    $result = $students->getStudents();
+    echo json_encode($result);
 } catch (Exception $e) {
-    echo json_encode(['error' => $e->getMessage()]);
-    exit();
+    echo json_encode(["error" => $e->getMessage()]);
 }
