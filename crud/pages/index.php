@@ -1,3 +1,13 @@
+<?php
+session_start(); // Start the session
+
+// // Check if the user is logged in and has the role_id of 1
+if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
+    header("Location: http://localhost:7000/crud/pages/adminLogin.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
