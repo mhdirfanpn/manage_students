@@ -14,7 +14,7 @@ if (isset($_GET['id']) && isset($_GET['name']) && isset($_GET['email']) && isset
     <body>
         <div class="form-container">
             <h1>Edit Student</h1>
-            <form action="includes/handler.inc.php" method="POST">
+            <form action="includes/updateStudents.php" method="POST">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 
                 <label for="name">Name:</label>

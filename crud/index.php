@@ -14,7 +14,7 @@
 
         <h1>Student Registration Form</h1>
         </div>
-    <form action="includes/handler.inc.php" method="POST">
+    <form action="includes/registerStudents.php" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
 
