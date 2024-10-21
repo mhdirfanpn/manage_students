@@ -1,7 +1,8 @@
 <?php
-header('Content-Type: application/json');
 require_once '../Classes/Db.inc.php'; 
 require_once '../Classes/DeleteStudents.php'; 
+
+header('Content-Type: application/json');
 $id = htmlspecialchars(trim($_GET['id']));
 
 try {
