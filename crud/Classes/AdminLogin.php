@@ -5,21 +5,18 @@ class AdminLogin extends Database {
 
     private $email;
     private $password;
-    private $name;
 
-
-    public function __construct($email,$password,$name) {
+    public function __construct($email,$password) {
         parent::__construct();
         $this->email = $email;
         $this->password = $password;
-        $this->name = $name;
     }
 
     private function login() {
         try {
 
             session_start(); 
-            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ? AND role_id = 1");
+            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->bind_param("s", $this->email);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -51,7 +48,7 @@ class AdminLogin extends Database {
     
 
     private function isEmptySubmit() {
-        return empty($this->name) || empty($this->email) || empty($this->password);
+        return empty($this->email) || empty($this->password);
     }
     
     public function adminLogin() {
@@ -59,8 +56,7 @@ class AdminLogin extends Database {
             return json_encode(["error" => "All fields are required."]);
         }
         
-        // Debugging: Output before calling login
-        echo "Attempting login...\n"; // Add this line
+        echo "Attempting login...\n"; 
         return $this->login();
     }
     

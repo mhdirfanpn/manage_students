@@ -2,12 +2,13 @@
 session_start(); // Start the session
 
 // // Check if the user is logged in and has the role_id of 1
-if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
-    header("Location: http://localhost:7000/crud/pages/adminLogin.php");
-    exit();
-}
+// if (!isset($_SESSION['user']) || ($_SESSION['user']['role_id'] != 1 && $_SESSION['user']['role_id'] != 2)) {
+//     header("Location: http://localhost:7000/crud/pages/adminLogin.php");
+//     exit();
+// }
 
 // $isAdmin = isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1;
+$userName = $_SESSION['user']['name']
 
  ?>
 
@@ -70,12 +71,14 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
     </style>
 </head>
 <body>
+<?php include 'navbar.php'; // Include the navbar ?>
     <div class="container">
+    <!-- <h3>Welcome, <?php echo htmlspecialchars($userName); ?></h3> -->
     <h1>Students List</h1>
     <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/index.php'">Back</button>
     <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/viewDeletedStudents.php'">Deleted</button>
-    <!-- <?php if ($isAdmin): ?>
-        <div id="button-container">
+    <!-- <?php if ($isAdmin): ?> -->
+     <!--    <div id="button-container">
             <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/index.php'">Back</button>
             <button class="backBtn" onclick="window.location.href='http://localhost:7000/crud/pages/viewDeletedStudents.php'">Deleted</button>
         </div>
